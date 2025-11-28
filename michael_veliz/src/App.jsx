@@ -1,5 +1,5 @@
 import React from 'react'
-
+import './App.css'
 const PROFILE = {
   name: 'Michael Veliz',
   role: 'Full Stack Developer (Junior)',
@@ -108,29 +108,38 @@ export default function App() {
     {/* HERO */}
     <section className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center mb-12">
       <div className="md:col-span-2">
-        <h2 className="text-4xl font-extrabold mb-3">Hola, soy {PROFILE.name} 👋</h2>
+        <h2 className="text-4xl font-extrabold mb-3">Hello, I'm {PROFILE.name} 👋</h2>
         <p className="text-lg text-slate-700 mb-4">
-        Soy un desarrollador Full Stack graduado en Full Stack Development. Me gusta construir aplicaciones limpias,
-        escalables y con interfaces a las que los usuarios disfrutan usar. Actualmente buscando roles junior en empresas tech en Canada.
+        I am a Full Stack developer studying in Full Stack Development. I enjoy building clean,
+        scalable applications with interfaces that users enjoy using. Currently seeking junior roles in tech companies in Canada.
         </p>
 
+        <div>
+          <h1 className="px-4 py-2 bg-slate-800 text-white rounded">Projects</h1>
+          {PROJECTS.map((p) => (
+            <ProjectCard key={p.name} p={p} />
+          ))}
+        </div>
         <div className="flex gap-3">
-          <a href="#projects" className="px-4 py-2 bg-slate-800 text-white rounded">Ver proyectos</a>
           <h4 className="font-semibold mb-2">Backend</h4>
           <div>
             {SKILLS.backend.map((s) => (
-            <Badge key={s}>{s}</Badge>
+              <Badge key={s}>
+                <ul>{s}<br/></ul>
+              </Badge>
             ))}
+          </div>
         </div>
-      </div>
-      <div>
-        <h4 className="font-semibold mb-2">Tools & DB</h4>
         <div>
-          {SKILLS.tools.map((s) => (
-          <Badge key={s}>{s}</Badge>
-          ))}
+          <h4 className="font-semibold mb-2">Tools & DB</h4>
+          <div>
+            {SKILLS.tools.map((s) => (
+              <Badge key={s}>
+                <ul>{s}<br/></ul>
+              </Badge>
+            ))}
+          </div>
         </div>
-      </div>
       </div>
     </section>
 
@@ -138,9 +147,9 @@ export default function App() {
     {/* RESUME */}
     <section id="resume" className="mb-12 p-6 rounded-lg text-center">
       <h3 className="text-2xl font-bold mb-3">Resume</h3>
-      <p className="text-slate-700 mb-4">Descarga mi CV en formato PDF (versión Canadiense enfocada a roles junior).</p>
+      <p className="text-slate-700 mb-4">Download my CV in PDF format (Canadian version)</p>
       <a href={PROFILE.resumeUrl} className="px-5 py-2 bg-slate-800 text-white rounded" download>
-      Descargar CV
+      Download CV
       </a>
     </section>
 
@@ -148,10 +157,10 @@ export default function App() {
     {/* CONTACT */}
     <section id="contact" className="mb-12 bg-white p-6 rounded-lg shadow-sm">
       <h3 className="text-2xl font-bold mb-3">Contacto</h3>
-      <p className="text-slate-700 mb-3">¿Interesado en conversar? Escríbeme por email o LinkedIn.</p>
+      <p className="text-slate-700 mb-3">Interested in chatting? Reach out to me via email or LinkedIn.</p>
       <div className="flex flex-col md:flex-row gap-3">
-        <a href={`mailto:${PROFILE.email}`} className="px-4 py-2 border rounded">{PROFILE.email}</a>
-        <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded">LinkedIn</a>
+        <a href={`mailto:${PROFILE.email}`} className="px-4 py-2 border rounded">{PROFILE.email}</a><br/>
+        <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded">LinkedIn</a><br/>
         <a href={PROFILE.github} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded">GitHub</a>
       </div>
 
