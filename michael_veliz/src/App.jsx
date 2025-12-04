@@ -13,13 +13,13 @@ const PROFILE = {
 const PROJECTS = [ // examples not real
   {
     id: 1,
-    name: 'SmartTask — Productivity App',
+    name: 'Flan Finder',
     description:
     'Aplicación de gestión de tareas con autenticación, tablero drag-and-drop y dashboards de usuario.',
     tech: ['React', 'TypeScript', 'Node.js', 'MongoDB'],
     demo: '#',
     code: 'https://github.com/tu-usuario/smarttask',
-    image: '/assets/smarttask.png'
+    image: '/assets/flanfinder.png'
   },
   {
     id: 2,
@@ -60,10 +60,12 @@ function Badge({ children }) {
   )
 }
 
-
 function ProjectCard({ p }) {
   return (
     <div className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow bg-white">
+      <div className='name'>
+        <h2 className="text-2xl font-bold mb-3">{p.name}</h2>
+      </div>
       <div className="h-40 mb-3 bg-slate-50 rounded overflow-hidden flex items-center justify-center">
       {/* Placeholder image */}
         <img src={p.image} alt={p.name} className="object-contain h-full" onError={(e)=>{e.currentTarget.src='/assets/placeholder.png'}} />
@@ -81,103 +83,140 @@ function ProjectCard({ p }) {
       </div>
     </div>
   )
-}
+}                             
 
+function Label({ name, content }){
+  function hoverIn(){
+    document.querySelectorAll(`div.content.${name.toLowerCase()}`).forEach((el) => {
+    })}                                                                                                                                                                                                                                                                                
+
+  function hoverOut(){
+    document.querySelectorAll(`div.content.${name.toLowerCase()}`).forEach((el) => {
+    })
+  }
+  function showContent(){
+    document.querySelectorAll(`div.content.${name.toLowerCase()}`).forEach((el) => {
+      if (el.style.display === 'block') {
+        el.style.display = 'none';
+      } else {
+        el.style.display = 'block'
+      };
+    })
+  }
+
+  return(
+    <button className="label" onMouseOver={hoverIn} onMouseOut={hoverOut} onClick={showContent}>
+      {name}
+      <div className={`content ${name.toLowerCase()}`} style={{display: 'none'}}                                                                                                                                                  >
+        {content}
+      </div>
+    </button>
+  )
+}
 
 // ---------------------------
 // Main App
 // ---------------------------
 export default function App() {
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      <header className="max-w-5xl mx-auto p-6 flex items-center justify-between">
-      <div>
-        <h1 className="text-2xl font-bold">{PROFILE.name}</h1>
-        <p className="text-sm text-slate-600">{PROFILE.role} • {PROFILE.location}</p>
-    </div>
-  <nav className="space-x-3">
-    <a href="#projects" className="text-sm hover:underline">Projects</a>
-    <a href="#skills" className="text-sm hover:underline">Skills</a>
-    <a href="#contact" className="text-sm hover:underline">Contact</a>
-    <a href={PROFILE.resumeUrl} className="ml-3 text-sm px-3 py-1.5 border rounded">Resume</a>
-  </nav>
-  </header>
-
-
-  <main className="max-w-5xl mx-auto p-6">
-    {/* HERO */}
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center mb-12">
-      <div className="md:col-span-2">
-        <h2 className="text-4xl font-extrabold mb-3">Hello, I'm {PROFILE.name} 👋</h2>
-        <p className="text-lg text-slate-700 mb-4">
-        I am a Full Stack developer studying in Full Stack Development. I enjoy building clean,
-        scalable applications with interfaces that users enjoy using. Currently seeking junior roles in tech companies in Canada.
-        </p>
-
-        <div>
-          <h1 className="px-4 py-2 bg-slate-800 text-white rounded">Projects</h1>
-          {PROJECTS.map((p) => (
-            <ProjectCard key={p.name} p={p} />
-          ))}
+  function saveCV(){
+    console.log('This will do something to download the CV');
+  }
+  function activity(){
+    let hello = ['Maria', 'Juan', 'Pedro'];
+    let counter = 0;
+    while(hello.length > counter){
+      console.log(hello[counter]);
+      counter++;
+    }
+  }
+  function activity2(){
+    let numbers = [1,2,3,4,5];
+    let counter = 0;
+    do{
+      console.log(numbers[counter]);
+      counter++;
+    } while(counter < numbers.length);
+  }
+    return (
+    <div className='bg-primary text-light min-h-screen font-cursive'>
+      <header className="basicHeader flex flex-col items-center py-8 border-b border-slate-700">
+        <div className="name">
+          <p>{PROFILE.name}</p>
         </div>
-        <div className="flex gap-3">
-          <h4 className="font-semibold mb-2">Backend</h4>
-          <div>
-            {SKILLS.backend.map((s) => (
-              <Badge key={s}>
-                <ul>{s}<br/></ul>
-              </Badge>
-            ))}
+        <div className='deco'>
+          <img src="/assets/deco.png" alt="Decoration" className="deco-image" />
+        </div>
+        <div className='role'>
+          <p className="role">{PROFILE.role}</p>
+        </div>
+        <button onClick={activity}>While Loop</button>
+        <button onClick={activity2}>Do while Loop</button>
+      </header>
+
+      <main className="max-w-5xl mx-auto p-6">
+        {/* HERO */}
+        <section className="labelHolder">
+          <div className="labelsHolder">
+            <Label name="Resume" className='' content={
+              <div className='Intro'>
+                <p className='text1'>
+                  Full Stack developer studying in Full Stack Development. Specialized in building clean,
+                  scalable applications with interfaces that users enjoy using. Seeking junior roles in tech companies in Canada.
+                </p>
+                <button onClick={saveCV}>Download my CV if you like what you see</button>
+              </div>
+            }/>
+            <Label name="Projects" content={
+              PROJECTS.map((p) => (
+                <ProjectCard key={p.id} p={p} />
+              ))
+            } />
+            <Label name="Skills" content={
+              <div>
+                {Object.keys(SKILLS).map((categories) => (
+                  console.log(categories),
+                  <Badge key={categories}>{
+                    categories.charAt(0).toUpperCase() + categories.slice(1)
+                  }</Badge>
+                ))} 
+              </div>
+            } />
           </div>
-        </div>
-        <div>
-          <h4 className="font-semibold mb-2">Tools & DB</h4>
-          <div>
-            {SKILLS.tools.map((s) => (
-              <Badge key={s}>
-                <ul>{s}<br/></ul>
-              </Badge>
-            ))}
+        </section>
+
+        {/* RESUME */}
+        <section id="resume" className="mb-12 p-6 rounded-lg text-center">
+          <h3 className="text-2xl font-bold mb-3">Resume</h3>
+          <p className="text-slate-700 mb-4">Download my CV in PDF format (Canadian version)</p>
+          <a href={PROFILE.resumeUrl} className="px-5 py-2 bg-slate-800 text-white rounded" download>
+          Download CV
+          </a>
+        </section>
+
+        {/* CONTACT */}
+        <section id="contact" className="mb-12 bg-white p-6 rounded-lg shadow-sm">
+          <h3 className="text-2xl font-bold mb-3">Contacto</h3>
+          <p className="text-slate-700 mb-3">Interested in chatting? Reach out to me via email or LinkedIn.</p>
+          <div className="flex flex-col md:flex-row gap-3">
+            <a href={`mailto:${PROFILE.email}`} className="px-4 py-2 border rounded">{PROFILE.email}</a><br/>
+            <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded">LinkedIn</a><br/>
+            <a href={PROFILE.github} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded">GitHub</a>
           </div>
-        </div>
-      </div>
-    </section>
 
 
-    {/* RESUME */}
-    <section id="resume" className="mb-12 p-6 rounded-lg text-center">
-      <h3 className="text-2xl font-bold mb-3">Resume</h3>
-      <p className="text-slate-700 mb-4">Download my CV in PDF format (Canadian version)</p>
-      <a href={PROFILE.resumeUrl} className="px-5 py-2 bg-slate-800 text-white rounded" download>
-      Download CV
-      </a>
-    </section>
+          <form className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={(e)=>{e.preventDefault(); alert('Gracias! Copia el email y envia tu mensaje: '+PROFILE.email)}}>
+            <input className="border p-2 rounded" placeholder="Tu nombre" />
+            <input className="border p-2 rounded" placeholder="Tu email" />
+            <textarea className="md:col-span-2 border p-2 rounded" rows={5} placeholder="Tu mensaje" />
+            <button type="submit" className="md:col-span-2 px-4 py-2 bg-slate-800 text-white rounded">Enviar</button>
+          </form>
+        </section>
 
 
-    {/* CONTACT */}
-    <section id="contact" className="mb-12 bg-white p-6 rounded-lg shadow-sm">
-      <h3 className="text-2xl font-bold mb-3">Contacto</h3>
-      <p className="text-slate-700 mb-3">Interested in chatting? Reach out to me via email or LinkedIn.</p>
-      <div className="flex flex-col md:flex-row gap-3">
-        <a href={`mailto:${PROFILE.email}`} className="px-4 py-2 border rounded">{PROFILE.email}</a><br/>
-        <a href={PROFILE.linkedin} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded">LinkedIn</a><br/>
-        <a href={PROFILE.github} target="_blank" rel="noreferrer" className="px-4 py-2 border rounded">GitHub</a>
-      </div>
-
-
-      <form className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={(e)=>{e.preventDefault(); alert('Gracias! Copia el email y envia tu mensaje: '+PROFILE.email)}}>
-        <input className="border p-2 rounded" placeholder="Tu nombre" />
-        <input className="border p-2 rounded" placeholder="Tu email" />
-        <textarea className="md:col-span-2 border p-2 rounded" rows={5} placeholder="Tu mensaje" />
-        <button type="submit" className="md:col-span-2 px-4 py-2 bg-slate-800 text-white rounded">Enviar</button>
-      </form>
-    </section>
-
-
-    <footer className="text-center text-sm text-slate-500 py-6">
-      Built with React • Deployed on Netlify • © {new Date().getFullYear()} {PROFILE.name}
-    </footer>
-  </main>
+        <footer className="text-center text-sm text-slate-500 py-6">
+          Built with React • Deployed on Netlify • © {new Date().getFullYear()} {PROFILE.name}
+        </footer>
+      </main>
   </div>
   )
 }
