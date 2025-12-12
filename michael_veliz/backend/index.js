@@ -4,6 +4,7 @@ import cors from "cors";
 import { Message } from "./models/message.js";
 import { Project } from "./models/projects.js";
 import { Contact } from "./models/contact.js";
+import SkillField from "./models/skillField.js";
 import { MONGO_URL, PORT } from "./env.js";
 
 const app = express();
@@ -164,6 +165,57 @@ app.patch("/api/message/:id", async (req, res) => {
       return res.status(404).json({ error: "Not found" });
     }
     res.status(200).json(updatedData);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET SkillField
+app.get("/api/skillfield", async (req, res) => {
+  try{
+    const skills = await SkillField.find();
+    res.status(200).json(skills);
+  } catch (error){
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// POST SkillField
+app.post("/api/skillfield", async (req, res) => {
+  try{
+    const newField = new SkillField(req.body);
+    await newField.save();
+    res.status(201).json({ success: true });
+  } catch (error){
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// PATCH SkillField
+app.patch("/api/skillfield/:id", async (req, res) => {
+  try {
+    const updatedField = await SkillField.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    if (!updatedField) {
+      return res.status(404).json({ error: "Not found" });
+    }
+    res.status(200).json(updatedField);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// DELETE SkillField
+app.delete("/api/skillfield/:id", async (req, res) => {
+  try {
+    const deletedField = await SkillField.findByIdAndDelete(req.params.id);
+    if (!deletedField) {
+      return res.status(404).json({ error: "Not found" });
+    }
+    res.status(200).json({ success: true });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
   }
