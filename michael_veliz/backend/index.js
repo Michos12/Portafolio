@@ -221,4 +221,54 @@ app.delete("/api/skillfield/:id", async (req, res) => {
   }
 });
 
+// POST PROFILE DATA
+app.post("/api/profile", async (req, res) => {
+  try {
+    const newData = new Profile(req.body);
+    await newData.save();
+    res.status(201).json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// GET PROFILE DATA
+app.get("/api/profile", async (req, res) => {
+  try {
+    const datas = await Profile.find();
+    res.status(200).json(datas);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// PATCH PROFILE DATA
+app.patch("/api/profile/:id", async (req, res) => {
+  try {
+    const updateData = await Profile.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+    if (!updateData) {
+      return res.status(404).json({ error: "Not found" });
+    }
+    res.status(200).json(updateData);
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// DELETE PROFILE DATA
+app.delete("/api/profile/:id", async (req, res) => {
+    try{
+      const deletedData = await Profile.findByIdAndDelete(req.params.id);
+      if(!deletedData){
+        return res.status(404).json({ error: "Not found" });
+      }
+    } catch (error){
+      res.status(500).json({ error: "Server error" });
+    }
+});
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
