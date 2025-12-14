@@ -124,11 +124,6 @@ export default function App() {
                 <button onClick={saveCV}>Download my CV if you like what you see</button>
               </div>
             }/>
-            <Label name="Projects" content={
-              PROJECTS.map((p) => (
-                <ProjectCard key={p.id} p={p} />
-              ))
-            } />
             <Label name="Skills" content={
               <div>
                 {Object.entries(SKILLS).map(([category, skills]) => (

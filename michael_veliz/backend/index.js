@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { Message } from "./models/message.js";
 import { Project } from "./models/projects.js";
+import Profile from "./models/profile.js";
 import { Contact } from "./models/contact.js";
 import SkillField from "./models/skillField.js";
 import { MONGO_URL, PORT } from "./env.js";
@@ -271,4 +272,4 @@ app.delete("/api/profile/:id", async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));  

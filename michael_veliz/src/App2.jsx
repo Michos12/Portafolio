@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useEffect } from "react"
+import Contact from "./components/contacts/contacts.jsx"
 
 function Badge({ children, content}) {
   return (
@@ -67,11 +68,63 @@ function Label({ name, content }){
   )
 }
 
-function App(){
+export default function App2(){
     return(
         <div>
-            
+          <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About Me</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Get in touch</a>
+          </nav>
+          <div className="content">
+            <div className="deco">
+            </div>
+            <div className="info">
+              <h1>Hello! Im Michael Veliz</h1>
+              <h2>
+                {
+                useEffect(() => {
+                  fetch(`http://localhost:4000/api/profile`)
+                    .then(response => response.json())
+                    .then(data => {
+                      return <h1>{data}</h1>;
+                    })
+                }, [])
+                }
+              </h2> 
+            </div>
+            <div className="projects">
+              <h1>Take a look on my projects</h1>
+              <div className="projectCards">
+                {
+                useEffect(() => {
+                  fetch(`http://localhost:4000/api/project`)
+                    .then(response => response.json())
+                    .then(data => {
+                      return data.map((p) => (
+                        <ProjectCard key={p._id} p={p} />
+                      ))
+                    })
+                }, [])
+                }a
+              </div>
+            </div>
+            <div className="skillsRoulette">
+            </div>
+            <div className="contactMe">
+              <h1>Get in touch!</h1>
+              <div className="contactOptions">
+                <Label name="Email" content={<a href="mailto:michael.veliz@outlook.com">michael.veliz@outlook.com</a>} />
+                <Label name="LinkedIn" content={<a href="https://www.linkedin.com/in/michael-veliz-701042258/" target="_blank" rel="noreferrer">LinkedIn Profile</a>} />
+                <Label name="GitHub" content={<a href="https://github.com/MichaelVeliz" target="_blank" rel="noreferrer">GitHub Profile</a>} />
+              </div>
+              <div>
+                <Contact />
+              </div>
+            </div>
+          </div>
         </div>
-
     )
 }
