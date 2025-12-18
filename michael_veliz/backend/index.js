@@ -1,12 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { Message } from "./models/message.js";
-import { Project } from "./models/projects.js";
-import Profile from "./models/profile.js";
-import { Contact } from "./models/contact.js";
-import SkillField from "./models/skillField.js";
 import { MONGO_URL, PORT } from "./env.js";
+import { updateContactController, deleteContactController, createContactController, getContactController } from "./Controller/contactController.js";
+import { deleteMessageController, getMessageController, updateMessageController, createMessageController } from "./Controller/messageController.js";
+import { getSkillFieldController, deleteSkillFieldController, updateSkillFieldController, createSkillFieldController } from "./Controller/skillFieldController.js"
+import { createProfileController, deleteProfileController, getProfileController, updateProfileController } from "./Controller/profileController.js";
+import { createProfileService } from "./Services/profileDataService.js";
 
 const app = express();
 app.use(cors());
@@ -19,257 +19,63 @@ mongoose
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
 // POST Contact
-app.post("/api/contact", async (req, res) => {
-  try {
-    const newData = new Contact(req.body);
-    await newData.save();
-    res.status(201).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.post("/api/contact", createContactController(req, res));
 
 // GET Contact
-app.get("/api/contact", async (req, res) => {
-  try {
-    const datas = await Contact.find();
-    res.status(200).json(datas);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.get("/api/contact", getContactController(req, res));
 
 // DELETE Contact
-app.delete("/api/contact/:id", async (req, res) => {
-  try {
-    const objective = await Contact.findByIdAndDelete(req.params.id);
-    if (!objective) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.delete("/api/contact/:id", deleteContactController(req, res));
 
 // PATCH Contact
-app.patch("/api/contact/:id", async (req, res) => {
-  try {
-    const updatedData = await Contact.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedData) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json(updatedData);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.patch("/api/contact/:id", updateContactController(req, res));
 
 // POST Project
-app.post("/api/project", async (req, res) => {
-  try {
-    const newData = new Project(req.body);
-    await newData.save();
-    res.status(201).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.post("/api/project", createContactController(req, res));
 
 // GET Project
-app.get("/api/project", async (req, res) => {
-  try {
-    const datas = await Project.find();
-    res.status(200).json(datas);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.get("/api/project", getContactController(req, res));
 
 // DELETE Project
-app.delete("/api/project/:id", async (req, res) => {
-  try {
-    const objective = await Project.findByIdAndDelete(req.params.id);
-    if (!objective) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.delete("/api/project/:id", deleteContactController(req, res));
 
 // PATCH Project
-app.patch("/api/project/:id", async (req, res) => {
-  try {
-    const updatedData = await Project.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedData) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json(updatedData);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.patch("/api/project/:id", updateContactController(req, res));
 
 // POST Message
-app.post("/api/message", async (req, res) => {
-  try {
-    const newData = new Message(req.body);
-    await newData.save();
-    res.status(201).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.post("/api/message", createMessageController(req, res));
 
 // GET Message
-app.get("/api/message", async (req, res) => {
-  try {
-    const datas = await Message.find();
-    res.status(200).json(datas);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.get("/api/message", getMessageController(req, res));
 
 // DELETE Message
-app.delete("/api/message/:id", async (req, res) => {
-  try {
-    const objective = await Message.findByIdAndDelete(req.params.id);
-    if (!objective) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.delete("/api/message/:id", deleteMessageController(req, res));
 
 // PATCH Message
-app.patch("/api/message/:id", async (req, res) => {
-  try {
-    const updatedData = await Message.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
-    if (!updatedData) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json(updatedData);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.patch("/api/message/:id", updateMessageController(req, res));
 
 // GET SkillField
-app.get("/api/skillfield", async (req, res) => {
-  try{
-    const skills = await SkillField.find();
-    res.status(200).json(skills);
-  } catch (error){
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.get("/api/skillfield", getSkillFieldController(req, res));
 
 // POST SkillField
-app.post("/api/skillfield", async (req, res) => {
-  try{
-    const newField = new SkillField(req.body);
-    await newField.save();
-    res.status(201).json({ success: true });
-  } catch (error){
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.post("/api/skillfield", createSkillFieldController(req, res));
 
 // PATCH SkillField
-app.patch("/api/skillfield/:id", async (req, res) => {
-  try {
-    const updatedField = await SkillField.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-    if (!updatedField) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json(updatedField);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.patch("/api/skillfield/:id", updateSkillFieldController(req, res));
 
 // DELETE SkillField
-app.delete("/api/skillfield/:id", async (req, res) => {
-  try {
-    const deletedField = await SkillField.findByIdAndDelete(req.params.id);
-    if (!deletedField) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.delete("/api/skillfield/:id", deleteSkillFieldController(req, res));
 
 // POST PROFILE DATA
-app.post("/api/profile", async (req, res) => {
-  try {
-    const newData = new Profile(req.body);
-    await newData.save();
-    res.status(201).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.post("/api/profile", createProfileController(req, res));
 
 // GET PROFILE DATA
-app.get("/api/profile", async (req, res) => {
-  try {
-    const datas = await Profile.find();
-    res.status(200).json(datas);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.get("/api/profile", getProfileController(req, res));
 
 // PATCH PROFILE DATA
-app.patch("/api/profile/:id", async (req, res) => {
-  try {
-    const updateData = await Profile.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-    if (!updateData) {
-      return res.status(404).json({ error: "Not found" });
-    }
-    res.status(200).json(updateData);
-  } catch (error) {
-    res.status(500).json({ error: "Server error" });
-  }
-});
+app.patch("/api/profile/:id", updateProfileController(req, res));
 
 // DELETE PROFILE DATA
-app.delete("/api/profile/:id", async (req, res) => {
-    try{
-      const deletedData = await Profile.findByIdAndDelete(req.params.id);
-      if(!deletedData){
-        return res.status(404).json({ error: "Not found" });
-      }
-    } catch (error){
-      res.status(500).json({ error: "Server error" });
-    }
-});
+app.delete("/api/profile/:id", deleteProfileController(req, res));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));  

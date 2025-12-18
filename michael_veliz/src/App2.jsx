@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import Contact from "./components/contacts/contacts.jsx"
+import { useEffect, useState } from "react"
 
 function Badge({ children, content}) {
   return (
@@ -69,6 +70,25 @@ function Label({ name, content }){
 }
 
 export default function App2(){
+    const [info, setInfo] = useState('');
+    const [projects, setProjects] = useState([]);
+    useEffect(() => {
+      fetch(`http://localhost:4000/api/profile`)
+        .then(response => response.json())
+        .then(data => {
+          setInfo(data)
+        })
+    }, [])
+
+    useEffect(() => {
+      fetch(`http://localhost:4000/api/project`)
+        .then(response => response.json())
+        .then(data => {
+          data.map((p) => (
+            setProjects(p)
+          ))
+        })
+    }, [])
     return(
         <div>
           <nav>
@@ -84,31 +104,13 @@ export default function App2(){
             <div className="info">
               <h1>Hello! Im Michael Veliz</h1>
               <h2>
-                {
-                useEffect(() => {
-                  fetch(`http://localhost:4000/api/profile`)
-                    .then(response => response.json())
-                    .then(data => {
-                      return <h1>{data}</h1>;
-                    })
-                }, [])
-                }
+                
               </h2> 
             </div>
             <div className="projects">
               <h1>Take a look on my projects</h1>
               <div className="projectCards">
-                {
-                useEffect(() => {
-                  fetch(`http://localhost:4000/api/project`)
-                    .then(response => response.json())
-                    .then(data => {
-                      return data.map((p) => (
-                        <ProjectCard key={p._id} p={p} />
-                      ))
-                    })
-                }, [])
-                }a
+                
               </div>
             </div>
             <div className="skillsRoulette">
