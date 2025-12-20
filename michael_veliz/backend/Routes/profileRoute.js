@@ -1,14 +1,14 @@
 import express from "express";
-import { createProfileController, deleteProfileController, getProfileController, updateProfileController } from "./Controller/profileController.js";
+import { createProfileController, deleteProfileController, getProfileController, updateProfileController } from "../Controller/profileController.js";
 
 const profileRouter = express.Router();
 
 profileRouter.route("/")
-.get(getProfileController(req, res))
-.post(createProfileController(req, res))
+.get(getProfileController)
+.post(createProfileController)
 
 profileRouter.route("/:id")
-.patch(updateProfileController(req, res))
-.delete(deleteProfileController(req, res))
+.patch(updateProfileController)
+.delete(deleteProfileController)
 
 export { profileRouter }

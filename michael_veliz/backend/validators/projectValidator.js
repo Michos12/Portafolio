@@ -1,8 +1,8 @@
 function existsValidator(item, positiveCallback, negativeCallback){
     if(!item){
-        return positiveCallback
+        return negativeCallback
     }
-    return negativeCallback
+    return positiveCallback
 }
 
 export { existsValidator }

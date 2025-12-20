@@ -1,7 +1,14 @@
-import { Project } from "../models/projects";
+import { Project } from "../models/projects.js";
 
 async function createProjectService(name, description, tech, demo, code, image){
- const newProject = new Project(name, description, tech, demo, code, image);
+ const newProject = new Project({
+    name: name,
+    description: description,
+    tech: tech,
+    demo: demo,
+    code: code,
+    image: image
+});
  await newProject.save()
 }
 

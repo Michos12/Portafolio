@@ -1,14 +1,14 @@
 import express from "express"
-import { getSkillFieldController, deleteSkillFieldController, updateSkillFieldController, createSkillFieldController } from "./Controller/skillFieldController.js"
+import { getSkillFieldController, deleteSkillFieldController, updateSkillFieldController, createSkillFieldController } from "../Controller/skillFieldController.js"
 
 const skillFieldRouter = express.Router();
 
 skillFieldRouter.route("/")
-.get(getSkillFieldController(req, res))
-.post(createSkillFieldController(req, res))
+.get(getSkillFieldController)
+.post(createSkillFieldController)
 
 skillFieldRouter.route("/:id")
-.patch(updateSkillFieldController(req, res))
-.delete(deleteSkillFieldController(req, res))
+.patch(updateSkillFieldController)
+.delete(deleteSkillFieldController)
 
 export { skillFieldRouter }

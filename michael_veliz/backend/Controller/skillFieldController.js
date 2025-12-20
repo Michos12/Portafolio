@@ -13,12 +13,13 @@ function createSkillFieldController(req, res){
 
 function deleteSkillFieldController(req, res){
     try{
-        const objective = deleteSkillFieldService(req.params.id);
-        existsValidator(
-            objective,
-            (res.status(200).json({ success: true })),
-            (res.status(404).json({ error: "Not found" }))
-        )
+        deleteSkillFieldService(req.params.id).then(objective => {
+            existsValidator(
+                objective,
+                (res.status(200).json({ success: true })),
+                (res.status(404).json({ error: "Not found" }))
+            )
+        });
     } catch(error){
         res.status(500).json({ error: `Server error: ${error.message}` });
     }
@@ -26,12 +27,13 @@ function deleteSkillFieldController(req, res){
 
 function updateSkillFieldController(req, res){
     try{
-        const updataData = updateSkillFieldService(req.params.id, req.body);
-        existsValidator(
-            updataData,
-            (res.status(200).json(updataData)),
-            (res.status(404).json({ error: "Not found" }))
-        )
+        updateSkillFieldService(req.params.id, req.body).then(updataData => {
+            existsValidator(
+                updataData,
+                (res.status(200).json(updataData)),
+                (res.status(404).json({ error: "Not found" }))
+            )
+        });
     } catch(error){
         res.status(500).json({ error: `Server error: ${error.message}` });
     }
@@ -39,8 +41,9 @@ function updateSkillFieldController(req, res){
 
 function getSkillFieldController(req, res){
     try{
-        const data = getSkillFieldService();
-        res.status(200).json(data);
+        getSkillFieldService().then(data => {
+            res.status(200).json(data);
+        })
     } catch(error){
         res.status(500).json({ error: `Server error: ${error.message}` });
     }

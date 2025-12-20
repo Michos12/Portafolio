@@ -1,7 +1,10 @@
-import SkillField from "../models/skillField";
+import SkillField from "../models/skillField.js";
 
-async function createSkillFieldService(skills, field){
-    const newSkillField = new SkillField(skills, field);
+async function createSkillFieldService(field, skills){
+    const newSkillField = new SkillField({
+        field: field,
+        skills: skills,
+    });
     await newSkillField.save()
 }
 

@@ -1,12 +1,20 @@
 import Profile from "../models/profile.js"
 
-async function createProfileService(name, role, location, email, linkedin, github, resumeUrl, about){
-    const newData = new Profile(name, role, location, email, linkedin, github, resumeUrl, about);
+async function createProfileService(name, role, location, email, linkedln, github, resumeUrl, about){
+    const newData = new Profile({
+        name: name,
+        role: role,
+        location: location,
+        email: email,
+        linkedln: linkedln,
+        github: github,
+        resumeUrl: resumeUrl,   
+        about: about });
     await newData.save()
 }
 
 async function getProfileService(){
-    const data = await Profile.find()
+    const data = await Profile.find({})
     return data
 }
 

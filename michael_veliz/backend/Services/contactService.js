@@ -1,7 +1,10 @@
-import { Contact } from "../models/contact";
+import { Contact } from "../models/contact.js";
 
 async function createContactService(name, email, message){
-    const newData = new Contact(name, email, message);
+    const newData = new Contact({
+        name: name,
+        email: email, 
+        message: message});
     await newData.save();
 }
 

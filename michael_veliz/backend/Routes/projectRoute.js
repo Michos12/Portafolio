@@ -4,11 +4,11 @@ import { updateProjectController, createProjectController, deleteProjectControll
 const projectRouter = express.Router();
 
 projectRouter.route("/")
-.get(getProjectController(req, res))
-.post(createProjectController(req, res))
+.get(getProjectController)
+.post(createProjectController)
 
 projectRouter.route("/:id")
-.patch(updateProjectController(req, res))
-.delete(deleteProjectController(req, res))
+.patch(updateProjectController)
+.delete(deleteProjectController)
 
 export { projectRouter }

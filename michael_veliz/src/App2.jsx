@@ -1,6 +1,5 @@
-import React, { useEffect } from "react"
 import Contact from "./components/contacts/contacts.jsx"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 function Badge({ children, content}) {
   return (
@@ -70,25 +69,27 @@ function Label({ name, content }){
 }
 
 export default function App2(){
-    const [info, setInfo] = useState('');
-    const [projects, setProjects] = useState([]);
-    useEffect(() => {
-      fetch(`http://localhost:4000/api/profile`)
-        .then(response => response.json())
-        .then(data => {
-          setInfo(data)
-        })
-    }, [])
 
-    useEffect(() => {
-      fetch(`http://localhost:4000/api/project`)
-        .then(response => response.json())
-        .then(data => {
-          data.map((p) => (
-            setProjects(p)
-          ))
-        })
-    }, [])
+  const [info, setInfo] = useState('');
+  useEffect(() => {
+    fetch(`http://localhost:4000/api/profile`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setInfo(data)
+      })
+  }, [])
+
+  const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    fetch(`http://localhost:4000/api/project`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setProjects(data)
+      })
+  }, [])
+
     return(
         <div>
           <nav>
@@ -104,13 +105,13 @@ export default function App2(){
             <div className="info">
               <h1>Hello! Im Michael Veliz</h1>
               <h2>
-                
+                {/* { info } */}
               </h2> 
             </div>
             <div className="projects">
               <h1>Take a look on my projects</h1>
               <div className="projectCards">
-                
+                {/* { projects } */}
               </div>
             </div>
             <div className="skillsRoulette">
