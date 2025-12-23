@@ -1,6 +1,6 @@
 import Contact from "./components/contacts/contacts.jsx"
 import React, { useEffect, useState } from "react"
-
+import LetterGlitch from "./components/background.jsx"
 function Badge({ children, content}) {
   return (
     <span className="inline-block px-2 py-1 text-xs font-medium rounded bg-slate-100 text-slate-800 mr-2 mb-2">
@@ -26,11 +26,10 @@ function ProjectCard({ p }) {
       </div>
       <h3 className="text-lg font-semibold">{p.name}</h3>
       <p className="text-sm text-slate-600 my-2">{p.description}</p>
-      <div className="mb-3">
-        {p.tech.map((t) => (
-          <Badge key={t}>{t}</Badge>
-        ))}
-      </div>
+        {/* { for (tech of {p.tech}){
+
+        }} */}
+        
       <div className="flex gap-2 mt-2">
         <a href={p.demo} target="_blank" rel="noreferrer" className="text-sm px-3 py-1.5 border rounded hover:bg-slate-100">Demo</a>
         <a href={p.code} target="_blank" rel="noreferrer" className="text-sm px-3 py-1.5 bg-slate-800 text-white rounded">Code</a>
@@ -75,8 +74,7 @@ export default function App2(){
     fetch(`http://localhost:4000/api/profile`)
       .then(response => response.json())
       .then(data => {
-        console.log(data)
-        setInfo(data)
+        setInfo(data[0])
       })
   }, [])
 
@@ -85,49 +83,64 @@ export default function App2(){
     fetch(`http://localhost:4000/api/project`)
       .then(response => response.json())
       .then(data => {
-        console.log(data)
-        setProjects(data)
+        let projectArray = [];
+        for (let elements of data){
+          projectArray.push(elements)
+        }
+        setProjects(projectArray)
       })
   }, [])
 
     return(
-        <div>
-          <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About Me</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Get in touch</a>
-          </nav>
-          <div className="content">
-            <div className="deco">
-            </div>
-            <div className="info">
-              <h1>Hello! Im Michael Veliz</h1>
-              <h2>
-                {/* { info } */}
-              </h2> 
-            </div>
-            <div className="projects">
-              <h1>Take a look on my projects</h1>
-              <div className="projectCards">
-                {/* { projects } */}
+        <div className="w-screen h-screen">
+          <LetterGlitch
+            glitchSpeed={50}
+            centerVignette={false}
+            outerVignette={true}
+            smooth={true}
+            className="-z-10">
+              <div className="w-full h-full overflow-hidden">
+                <nav>
+                  <a href="#home">Home</a>
+                  <a href="#about">About Me</a>
+                  <a href="#projects">Projects</a>
+                  <a href="#skills">Skills</a>
+                  <a href="#contact">Get in touch</a>
+                </nav>
+                <div className="content">
+                  <div className="deco">
+                  </div>
+                  <div className="info">
+                    <h1>Hello! Im Michael Veliz</h1>
+                    <h2>
+                      { info.about }
+                    </h2> 
+                  </div>
+                  <div className="projects">
+                    <h1>Take a look on my projects</h1>
+                    <div className="projectCards">
+                      {projects.map((element, index) => (
+                        <ProjectCard key={index} p={element} />
+                    ))}
+                    </div>
+                  </div>
+                  <div className="skillsRoulette">
+                  </div>
+                  <div className="contactMe">
+                    <h1>Get in touch!</h1>
+                    <div className="contactOptions">
+                      <Label name="Email" content={<a href="mailto:michael.veliz@outlook.com">michael.veliz@outlook.com</a>} />
+                      <Label name="LinkedIn" content={<a href="https://www.linkedin.com/in/michael-veliz-701042258/" target="_blank" rel="noreferrer">LinkedIn Profile</a>} />
+                      <Label name="GitHub" content={<a href="https://github.com/MichaelVeliz" target="_blank" rel="noreferrer">GitHub Profile</a>} />
+                    </div>
+                    <div>
+                      <Contact />
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="skillsRoulette">
-            </div>
-            <div className="contactMe">
-              <h1>Get in touch!</h1>
-              <div className="contactOptions">
-                <Label name="Email" content={<a href="mailto:michael.veliz@outlook.com">michael.veliz@outlook.com</a>} />
-                <Label name="LinkedIn" content={<a href="https://www.linkedin.com/in/michael-veliz-701042258/" target="_blank" rel="noreferrer">LinkedIn Profile</a>} />
-                <Label name="GitHub" content={<a href="https://github.com/MichaelVeliz" target="_blank" rel="noreferrer">GitHub Profile</a>} />
-              </div>
-              <div>
-                <Contact />
-              </div>
-            </div>
-          </div>
+          </LetterGlitch>
+
         </div>
     )
 }
